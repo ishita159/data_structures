@@ -10,7 +10,8 @@ typedef struct linkedList
 node *createMemory()
 {
     node *block = (node *)malloc(sizeof(node));
-
+    block->value = 0;
+    block->nextAdress = NULL;
     return block;
 }
 
