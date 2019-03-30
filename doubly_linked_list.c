@@ -27,7 +27,7 @@ void printOutput(node* head)
     while (head != NULL)
     {
         printf("%d ", head->value);
-        head = head->nextAdress;
+        head = head->next;
     }
     printf("\n");
 }
@@ -48,20 +48,53 @@ node* insertAtEnding(node* last, node* memory)
     return last;
 }
 
-void insertInBetween(node* head, int position, mode* memory)
+void insertInBetween(node* head, int position, node* memory)
+{
+    int c = 1;
+    while(c < position-1)
+    {
+        head = head->next;
+        c++;
+    }
+    memory->previous = head;
+    memory->next = head->next;
+    head->next->previous = memory;
+    head->next = memory;
+}
+
+node* deleteAtLast(node* head)
+{
+    node* temp = head->next;
+    while(temp->next != NULL)
+    {
+        node *temp = head->next;
+        temp = temp->next;
+    } 
+    head->next = NULL;
+    free(temp);
+    return(head);
+}
+
+node* deleteAtBeginning(node* head)
+{
+    node* temp = head;
+    head = head->next;
+    free(temp);
+    return(head);
+}
+
+void deleteInBetween(node* head, int position)
 {
     int c = 1;
     while(c < position-1)
     {
         head = head->next;
     }
-    node *temp = head->next;
-    memory->previous = head;
-    memory->next = temp;
-    temp->previous = memory;
-    head->next = memory;
+    node* temp1 = head->next;
+    head->next = temp1->next;
+    temp1->next->previous = head;
+    free(temp1);
 }
-
 
 int main()
 {
@@ -76,7 +109,7 @@ int main()
     insert(val, memory);
     head = memory;
     node* last = head;
-    printf("%d",memory->value);
+    printf("%d\n",memory->value);
     while(no_of_nodes--)
     {
         scanf("%d",&val);
@@ -85,7 +118,7 @@ int main()
         last->next = memory;
         memory->previous = last;
         last = memory;
-        printf("%d",memory->value);
+        printf("%d\n",memory->value);
     }
 
     while (1)
@@ -93,8 +126,8 @@ int main()
         printf("Chhose Option: \n");
         printf("Press 1: To insert at beginning\n ");
         printf("Press 2: To insert at Ending\n ");
-        printf("Press 3: To insert In Between\n ");
-        printf("Press 4: To delete at Last\n ");
+        printf("Press 4: To insert In Between\n ");
+        printf("Press 3: To delete at Last\n ");
         printf("Press 5: To delete at Beginning\n ");
         printf("Press 6: To delete in Between\n ");
         printf("Press 7: print Output\n ");
@@ -120,7 +153,7 @@ int main()
             last = insertAtEnding(last, tempMemory);
             break;
 
-        case 3:
+        case 4:
             printf("Insert Value: ");
             scanf("%d", &val);
             tempMemory = createMemory();
@@ -129,7 +162,8 @@ int main()
             scanf("%d", &position);
             insertInBetween(head, position, tempMemory);
             break;
-        case 4:
+
+        case 3:
             last = deleteAtLast(head);
             break;
 
