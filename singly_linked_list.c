@@ -253,9 +253,9 @@ node *addOne(node *head)
     return head;
 }
 
-void detectloop(node *list)
+void detectLoop(node *head)
 {
-    node *slow_p = list, *fast_p = list;
+    node *slow_p = head, *fast_p = head;
 
     while (slow_p && fast_p && fast_p->nextAdress)
     {
@@ -269,7 +269,6 @@ void detectloop(node *list)
     }
     printf("NO LOOP FOUND!!");
     return;
-    
 }
 
 void detectAndRemoveLoop(node *head)
@@ -345,12 +344,12 @@ void printNthFromLast(node *head, int n)
     }
 }
 
-void rotate(node **head, int k)
+node *rotate(node *head, int k)
 {
     if (k == 0)
-        return;
+        return head;
 
-    node *current = *head;
+    node *current = head;
 
     int count = 1;
     while (count < k && current != NULL)
@@ -359,17 +358,18 @@ void rotate(node **head, int k)
         count++;
     }
     if (current == NULL)
-        return;
+        return head;
 
     node *kthNode = current;
 
     while (current->nextAdress != NULL)
         current = current->nextAdress;
 
-    current->nextAdress = *head;
+    current->nextAdress = head;
 
-    *head = kthNode->nextAdress;
+    head = kthNode->nextAdress;
     kthNode->nextAdress = NULL;
+    return head;
 }
 
 void deleteLast(node *head, int x)
@@ -427,7 +427,7 @@ void skipMdeleteN(node *head, int M, int N)
     }
 }
 
-node* deleteList(node *head)
+node *deleteLinkedList(node *head)
 {
 
     node *current = head;
@@ -444,7 +444,7 @@ node* deleteList(node *head)
     return head;
 }
 
-node* merge(node *p, node *q)
+node *mergeAtAlternatePositions(node *p, node *q)
 {
     node *p_curr = p, *q_curr = q;
     node *p_next, *q_next;
@@ -454,8 +454,8 @@ node* merge(node *p, node *q)
         p_next = p_curr->nextAdress;
         q_next = q_curr->nextAdress;
 
-        q_curr->nextAdress = p_next; 
-        p_curr->nextAdress = q_curr; 
+        q_curr->nextAdress = p_next;
+        p_curr->nextAdress = q_curr;
 
         p_curr = p_next;
         q_curr = q_next;
@@ -464,7 +464,6 @@ node* merge(node *p, node *q)
     q = q_curr;
     return q;
 }
-
 
 int main()
 {
@@ -515,7 +514,7 @@ int main()
         printf("Press 14: To Remove loop in linked list\n ");
         printf("Press 15: To Find nth node from the end of linked list\n ");
         printf("Press 16: To Function to check if a singly linked list is a palindrome\n ");
-        printf("Press 17: To Delete last occurrence of an item from linked list..;\n ");
+        printf("Press 17: To Delete last occurrence of an item from linked list;\n ");
         printf("Press 18: To Rotate a linked list\n ");
         printf("Press 19: To Delete n nodes after m nodes of a linked list\n ");
         printf("Press 20: To Merge a linked list into another linked list at alternate positions\n ");
@@ -552,6 +551,7 @@ int main()
             scanf("%d", &position);
             insertInBetween(head, position, tempMemory);
             break;
+
         case 4:
             last = deleteAtLast(head);
             break;
@@ -565,53 +565,79 @@ int main()
             scanf("%d", &position);
             deleteInBetween(head, position);
             break;
+
         case 7:
             printOutput(head);
             break;
+
         case 8:
-            head = deleteAtBeginning(head);
+            printMiddle(head);
             break;
+
         case 9:
-            head = deleteAtBeginning(head);
+            head = removeRedundantNodes(head);
             break;
+
         case 10:
-            head = deleteAtBeginning(head);
+            head = deleteMid(head);
             break;
+
         case 11:
-            head = deleteAtBeginning(head);
+            removeDuplicateNode(head);
             break;
+
         case 12:
-            head = deleteAtBeginning(head);
+            head = addOne(head);
             break;
+
         case 13:
-            head = deleteAtBeginning(head);
+            detectLoop(head);
             break;
+
         case 14:
-            head = deleteAtBeginning(head);
+            detectAndRemoveLoop(head);
             break;
+
         case 15:
-            head = deleteAtBeginning(head);
+            printf("Insert Value of Nth node: ");
+            scanf("%d", &temp);
+            printNthFromLast(head, temp);
             break;
+        /*
         case 16:
-            head = deleteAtBeginning(head);
             break;
+        */
         case 17:
-            head = deleteAtBeginning(head);
+            printf("Insert Value To Be Deleted: ");
+            scanf("%d", &temp);
+            deleteLast(head, temp);
             break;
+
         case 18:
-            head = deleteAtBeginning(head);
+            printf("Insert Value of Node to begin with: ");
+            scanf("%d", &temp);
+            head = rotate(head, temp);
             break;
+
         case 19:
-            head = deleteAtBeginning(head);
+            printf("Insert Value of n and m: ");
+            int n, m;
+            scanf("%d %d", &n, &m);
+            skipMdeleteN(head, m, n);
             break;
+        
+        /*
         case 20:
-            head = deleteAtBeginning(head);
+            head2 = mergeAtAlternatePositions(head1, head2);
             break;
+        */
+       
         case 21:
-            head = deleteAtBeginning(head);
+            head = deleteLinkedList(head);
             break;
+
         case 22:
-            head = deleteAtBeginning(head);
+            head = reverse(head);
             break;
 
         case 23:
